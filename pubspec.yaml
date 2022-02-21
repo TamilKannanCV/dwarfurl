@@ -34,8 +34,9 @@ dev_dependencies:
 
 flutter_native_splash:
   web: true
-  image_path: "assets/images/logo.png"
+  image: "assets/images/logo.png"
   color: "#FFFFFF"
+  color_dark: "#1b1b1b"
 
 flutter:
   uses-material-design: true
