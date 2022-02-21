@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _firebaseProvider = Provider.of(context, listen: false);
+    _firebaseProvider = Provider.of<FirebaseProvider>(context, listen: false);
   }
 
   @override
@@ -45,20 +45,34 @@ class _HomeScreenState extends State<HomeScreen> {
             AvatarGlow(
               glowColor: Colors.blue,
               endRadius: 150.0,
-              child: SvgPicture.asset(
-                kLogo,
-                width: 125.0,
-                height: 125.0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(
+                    kLogo,
+                    width: 125.0,
+                    height: 125.0,
+                  ),
+                  Text(
+                    "dwarfUrl",
+                    style: GoogleFonts.balooBhai2(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )
+                ],
               ),
             ),
             const SizedBox(height: 15.0),
-            Text(
-              "Create a dwarf link",
-              style: GoogleFonts.roboto(
-                fontSize: 30.0,
-                shadows: [
-                  const Shadow(offset: Offset(0.1, 0.1), blurRadius: 0.7),
-                ],
+            Consumer<FirebaseProvider>(
+              builder: (context, value, child) => Text(
+                value.generating ? "Generating" : "Create a dwarf link",
+                style: GoogleFonts.roboto(
+                  fontSize: 30.0,
+                  shadows: [
+                    const Shadow(offset: Offset(0.1, 0.1), blurRadius: 0.7),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 40.0),

@@ -23,9 +23,9 @@ void main() async {
     ChangeNotifierProvider(
       create: (BuildContext context) => FirebaseProvider(),
       child: MaterialApp(
-        onGenerateTitle: (context) => "DwarfUrl",
+        onGenerateTitle: (context) => "dwarfUrl",
         debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.system,
         theme: ThemeData(
           brightness: Brightness.light,
           useMaterial3: true,

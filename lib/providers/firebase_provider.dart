@@ -78,7 +78,8 @@ class FirebaseProvider extends ChangeNotifier {
 
   Future<String?> getOriginalUrl(String id) async {
     _fetching = true;
-    notifyListeners();
+    // notifyListeners();
+
     DocumentSnapshot<Map<String, dynamic>>? value;
     try {
       value = await FirebaseFirestore.instance

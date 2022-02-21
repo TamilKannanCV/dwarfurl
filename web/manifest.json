@@ -1,6 +1,6 @@
 {
-    "name": "DwarfUrl",
-    "short_name": "DwarfUrl",
+    "name": "dwarfUrl",
+    "short_name": "dwarfUrl",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
