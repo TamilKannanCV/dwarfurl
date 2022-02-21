@@ -8,7 +8,7 @@ import 'package:dwarfurl/screens/link_screen.dart';
 import 'package:dwarfurl/utils/alert_utils.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:regexpattern/regexpattern.dart';
+import 'package:string_validator/string_validator.dart';
 
 class HomeScreen extends StatefulWidget {
   static String route = "/";
@@ -102,11 +102,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (str) {
-                                  if (str == null || str.isEmpty) {
+                                  if (str == null || str.trim().isEmpty) {
                                     return "No link found";
                                   }
-                                  if (str.isUrl() == false) {
-                                    return "Not a valid url";
+                                  if (!(isURL(str) || isFQDN(str))) {
+                                    return "Not a valid link";
                                   }
                                   return null;
                                 },

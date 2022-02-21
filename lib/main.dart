@@ -11,6 +11,7 @@ import 'package:dwarfurl/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 void main() async {
   setUrlStrategy(PathUrlStrategy());
@@ -22,23 +23,25 @@ void main() async {
   runApp(
     ChangeNotifierProvider(
       create: (BuildContext context) => FirebaseProvider(),
-      child: MaterialApp(
-        onGenerateTitle: (context) => "dwarfUrl",
-        debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.system,
-        theme: ThemeData(
-          brightness: Brightness.light,
-          useMaterial3: true,
-          colorSchemeSeed: Colors.blue,
-        ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          useMaterial3: true,
-          colorSchemeSeed: Colors.blue,
-        ),
-        initialRoute: '/',
-        onGenerateRoute: _generateRoute,
-      ),
+      child: Sizer(builder: (context, _, __) {
+        return MaterialApp(
+          onGenerateTitle: (context) => "dwarfUrl",
+          debugShowCheckedModeBanner: false,
+          themeMode: ThemeMode.system,
+          theme: ThemeData(
+            brightness: Brightness.light,
+            useMaterial3: true,
+            colorSchemeSeed: Colors.blue,
+          ),
+          darkTheme: ThemeData(
+            brightness: Brightness.dark,
+            useMaterial3: true,
+            colorSchemeSeed: Colors.blue,
+          ),
+          initialRoute: '/',
+          onGenerateRoute: _generateRoute,
+        );
+      }),
     ),
   );
 }

@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:dwarfurl/screens/home_screen.dart';
 import 'package:dwarfurl/screens/page_not_found_screen.dart';
@@ -13,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:sizer/sizer.dart';
 
 class LinkScreen extends StatefulWidget {
   static String route = "/generated/:id";
@@ -70,14 +68,14 @@ class _LinkScreenState extends State<LinkScreen> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
+                          Container(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: AutoSizeText(
+                            child: Text(
                               "$kWebUrl${widget.id}",
                               maxLines: 2,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 100.0),
+                              style: TextStyle(fontSize: 20.sp),
                             ),
                           ),
                           const SizedBox(height: 30.0),
@@ -115,7 +113,7 @@ class _LinkScreenState extends State<LinkScreen> {
                                             style:
                                                 const TextStyle(fontSize: 17.0),
                                             overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
+                                            maxLines: 1,
                                           ),
                                           onTap: () async {
                                             if (await canLaunch(
