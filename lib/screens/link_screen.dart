@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:dwarfurl/screens/page_not_found_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dwarfurl/constants.dart';
 import 'package:dwarfurl/providers/firebase_provider.dart';
@@ -54,15 +55,16 @@ class _LinkScreenState extends State<LinkScreen> {
             if (value.fetching) return const CircularProgressIndicator();
 
             if (value.originalUrl == null) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: AutoSizeText(
-                  "Invalid link",
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 100.0),
-                ),
-              );
+              return const PageNotFoundScreen();
+              // return const Padding(
+              //   padding: EdgeInsets.symmetric(horizontal: 20.0),
+              //   child: AutoSizeText(
+              //     "Invalid link",
+              //     maxLines: 2,
+              //     textAlign: TextAlign.center,
+              //     style: TextStyle(fontSize: 100.0),
+              //   ),
+              // );
             }
             return SingleChildScrollView(
               child: Column(

@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               glowColor: Colors.blue,
               endRadius: 150.0,
               child: SvgPicture.asset(
-                kLink,
+                kLogo,
                 width: 125.0,
                 height: 125.0,
               ),
