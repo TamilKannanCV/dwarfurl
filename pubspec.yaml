@@ -25,6 +25,7 @@ dependencies:
   auto_size_text: ^3.0.0
   animations: ^2.0.2
   url_launcher: ^6.0.20
+  package_info_plus: ^1.4.0
 
 dev_dependencies:
   flutter_test:

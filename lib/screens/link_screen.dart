@@ -36,8 +36,7 @@ class _LinkScreenState extends State<LinkScreen> {
           false) {
         if (value != null) {
           canLaunch(value).then((e) async {
-            // TODO: un comment it
-            // if (e) await launch(value);
+            if (e) await launch(value);
           });
         }
       }
