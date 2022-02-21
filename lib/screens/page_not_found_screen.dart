@@ -38,10 +38,7 @@ class PageNotFoundScreen extends StatelessWidget {
                   ),
                   Text(
                     "dwarfUrl",
-                    style: GoogleFonts.balooBhai2(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                    style: GoogleFonts.ubuntuCondensed(color: Colors.black),
                   ),
                   const SizedBox(height: 20.0),
                 ],

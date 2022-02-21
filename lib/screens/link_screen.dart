@@ -180,8 +180,7 @@ class _LinkScreenState extends State<LinkScreen> {
                       ),
                       Text(
                         "dwarfUrl",
-                        style:
-                            GoogleFonts.balooBhai2(fontWeight: FontWeight.bold),
+                        style: GoogleFonts.ubuntuCondensed(),
                       ),
                       const SizedBox(height: 20.0),
                     ],

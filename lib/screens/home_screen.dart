@@ -59,10 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Text(
                         "dwarfUrl",
-                        style: GoogleFonts.balooBhai2(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: GoogleFonts.ubuntuCondensed(fontSize: 30.0),
                       )
                     ],
                   ),
@@ -105,7 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   if (str == null || str.trim().isEmpty) {
                                     return "No link found";
                                   }
-                                  if (!(isURL(str.trim()) || isFQDN(str.trim()))) {
+                                  if (!(isURL(str.trim()) ||
+                                      isFQDN(str.trim()))) {
                                     return "Not a valid link";
                                   }
                                   return null;
@@ -126,7 +124,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ElevatedButton(
                           onPressed: () async {
                             if (_globalKey.currentState?.validate() == true) {
-                              value.generate(_controller.text.trim()).then((url) {
+                              value
+                                  .generate(_controller.text.trim())
+                                  .then((url) {
                                 if (url != null) {
                                   _controller.clear();
                                   Navigator.pushNamed(
