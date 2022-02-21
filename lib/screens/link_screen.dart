@@ -82,8 +82,9 @@ class _LinkScreenState extends State<LinkScreen> {
                           Container(
                             alignment: Alignment.center,
                             constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.75),
+                              maxWidth:
+                                  MediaQuery.of(context).size.width * 0.85,
+                            ),
                             child: Card(
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
@@ -99,12 +100,7 @@ class _LinkScreenState extends State<LinkScreen> {
                                       ),
                                     ),
                                     const SizedBox(width: 10.0),
-                                    ConstrainedBox(
-                                      constraints: BoxConstraints(
-                                        maxWidth:
-                                            MediaQuery.of(context).size.width *
-                                                0.60,
-                                      ),
+                                    Flexible(
                                       child: Tooltip(
                                         message: "Click to open website",
                                         child: GestureDetector(
