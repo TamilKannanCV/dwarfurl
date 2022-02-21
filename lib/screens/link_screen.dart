@@ -29,14 +29,10 @@ class _LinkScreenState extends State<LinkScreen> {
   void initState() {
     super.initState();
     _firebaseProvider = Provider.of<FirebaseProvider>(context, listen: false);
-    _firebaseProvider?.getOriginalUrl(widget.id ?? '').then((value) {
+    _firebaseProvider?.getOriginalUrl(widget.id ?? '').then((value) async {
       if (ModalRoute.of(context)?.settings.name?.contains("/generated") ==
           false) {
-        if (value != null) {
-          canLaunch(value).then((e) async {
-            if (e) await launch(value);
-          });
-        }
+        if (value != null) await launchUrl(value);
       }
     });
   }
@@ -112,10 +108,9 @@ class _LinkScreenState extends State<LinkScreen> {
                                             maxLines: 1,
                                           ),
                                           onTap: () async {
-                                            if (await canLaunch(
-                                                value.originalUrl!)) {
-                                              launch(value.originalUrl!);
-                                            }
+                                            await launchUrl(
+                                              "${value.originalUrl}",
+                                            );
                                           },
                                         ),
                                       ),
@@ -148,7 +143,7 @@ class _LinkScreenState extends State<LinkScreen> {
                                 tooltip: "Open website",
                                 icon: const Icon(Icons.launch),
                                 onPressed: () async {
-                                  await launch(
+                                  await launchUrl(
                                       "${_firebaseProvider?.originalUrl}");
                                 },
                               ),
@@ -185,5 +180,14 @@ class _LinkScreenState extends State<LinkScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> launchUrl(String? url) async {
+    String originalUrl = "$url";
+    if (originalUrl.startsWith("http") == false) {
+      originalUrl = "http://$originalUrl";
+    }
+
+    if (await canLaunch(originalUrl)) await launch(originalUrl);
   }
 }
