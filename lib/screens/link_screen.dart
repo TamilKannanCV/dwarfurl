@@ -148,15 +148,8 @@ class _LinkScreenState extends State<LinkScreen> {
                                 tooltip: "Open website",
                                 icon: const Icon(Icons.launch),
                                 onPressed: () async {
-                                  if (await canLaunch(
-                                      "${_firebaseProvider?.originalUrl}")) {
-                                    launch("${_firebaseProvider?.originalUrl}");
-                                  } else {
-                                    AlertUtils.showSnackBar(
-                                      context,
-                                      "Unable to launch link",
-                                    );
-                                  }
+                                  await launch(
+                                      "${_firebaseProvider?.originalUrl}");
                                 },
                               ),
                             ],
