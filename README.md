@@ -13,13 +13,16 @@ dwarfUrl is a link shrinker project that works using firebase as it's core for s
 | ![Start](screenshots/ss1.png) | ![Link inserted](screenshots/ss2.png)| ![Generating link](screenshots/ss3.png) | ![Link generated](screenshots/ss4.png)
  
 ## How it works?
- dwarfUrl shortens the URL by sending the original URL to firebase firestore database, with a randomly generated key and returns it. When the user clicks the generated link, the app connects with the firestore database and returns the original URL for the given key. The uses **Deep Linking** for getting the key from the generated URL. Finally the user is navigated to the original website.
+ dwarfUrl shortens the URL by sending the original URL to firebase firestore database, with a randomly generated key and returns it. When the user clicks the generated link, the app connects with the firestore database and returns the original URL for the given key. The app uses **Deep Linking** for getting the key from the generated URL. Finally the user is navigated to the original website.
 
 ## Benefits
 - Shorten any long URL
 - Avoids the problem of link breaking when sharing
 - No ads and unnecessary redirects are available
 - No user data is collected (like mail id, etc.,)
+
+## Web app link
+[Click here to open web app](https://dwarfurl.web.app)
 
 ## Contributing
 
