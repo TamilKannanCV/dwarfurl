@@ -25,6 +25,7 @@ class LinkScreen extends StatefulWidget {
 
 class _LinkScreenState extends State<LinkScreen> {
   FirebaseProvider? _firebaseProvider;
+  
   @override
   void initState() {
     super.initState();
