@@ -33,7 +33,7 @@ dwarfUrl is a link shrinker project that works using firebase as it's core for s
 If you have read up till here, then 🎉🎉🎉. There are couple of ways in which you can contribute to
 the growing community of **dwarfUrl**.
 
-- Pick up any issue marked with ["good first issue"](https://github.com/TamilKannanCV-personal/dwarfurl/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+- Pick up any issue marked with ["good first issue"](https://github.com/TamilKannanCV/dwarfurl/labels/good%20first%20issue)
 - Propose any feature, enhancement
 - Report a bug
 - Fix a bug
