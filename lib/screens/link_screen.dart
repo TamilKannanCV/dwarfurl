@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sizer/sizer.dart';
+import 'dart:html' as html;
 
 class LinkScreen extends StatefulWidget {
   static String route = "/generated/:id";
@@ -25,7 +26,7 @@ class LinkScreen extends StatefulWidget {
 
 class _LinkScreenState extends State<LinkScreen> {
   FirebaseProvider? _firebaseProvider;
-  
+
   @override
   void initState() {
     super.initState();
@@ -124,21 +125,27 @@ class _LinkScreenState extends State<LinkScreen> {
                           const SizedBox(height: 30.0),
                           Row(
                             mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              CircleIconButton(
-                                tooltip: "Copy to clipboard",
-                                icon: const Icon(Icons.copy),
-                                onPressed: () {
-                                  FlutterClipboard.copy(
-                                          kWebUrl + widget.id.toString())
-                                      .then((value) {
-                                    AlertUtils.showSnackBar(
-                                      context,
-                                      "Copied to clipboard!",
-                                    );
-                                  });
-                                },
-                              ),
+                              if (ModalRoute.of(context)
+                                      ?.settings
+                                      .name
+                                      ?.contains("/generated") ==
+                                  true)
+                                CircleIconButton(
+                                  tooltip: "Copy to clipboard",
+                                  icon: const Icon(Icons.copy),
+                                  onPressed: () {
+                                    FlutterClipboard.copy(
+                                            kWebUrl + widget.id.toString())
+                                        .then((value) {
+                                      AlertUtils.showSnackBar(
+                                        context,
+                                        "Copied to clipboard!",
+                                      );
+                                    });
+                                  },
+                                ),
                               const SizedBox(width: 30.0),
                               CircleIconButton(
                                 tooltip: "Open website",
@@ -188,6 +195,8 @@ class _LinkScreenState extends State<LinkScreen> {
     if (originalUrl.startsWith("http") == false) {
       originalUrl = "http://$originalUrl";
     }
+
+    // html.window.open(originalUrl, "originalUrl");
 
     if (await canLaunch(originalUrl)) await launch(originalUrl);
   }
