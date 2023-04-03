@@ -1,6 +1,7 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dwarfurl/constants.dart';
 import 'package:dwarfurl/providers/firebase_provider.dart';
@@ -8,6 +9,7 @@ import 'package:dwarfurl/screens/link_screen.dart';
 import 'package:dwarfurl/utils/alert_utils.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:string_validator/string_validator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,25 +17,12 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _controller = TextEditingController();
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-  late FirebaseProvider _firebaseProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    _firebaseProvider = Provider.of<FirebaseProvider>(context, listen: false);
-  }
-
-  @override
-  void dispose() {
-    _firebaseProvider.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +35,17 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                AvatarGlow(
-                  glowColor: Colors.blue,
-                  endRadius: 150.0,
+                Consumer<FirebaseProvider>(
+                  builder: (context, value, child) {
+                    if (value.generating) {
+                      return AvatarGlow(
+                        glowColor: Colors.blue,
+                        endRadius: 150.0,
+                        child: child!,
+                      );
+                    }
+                    return Container(margin: const EdgeInsets.all(10.0), child: child!);
+                  },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -67,53 +64,48 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: 15.0),
                 Consumer<FirebaseProvider>(
                   builder: (context, value, child) => Text(
-                    value.generating ? "Generating" : "Create a dwarf link",
-                    style: GoogleFonts.roboto(
-                      fontSize: 30.0,
-                      shadows: [
-                        const Shadow(offset: Offset(0.1, 0.1), blurRadius: 0.7),
-                      ],
-                    ),
+                    value.generating ? "Generating" : "Create your own dwarfUrl",
+                    style: GoogleFonts.roboto(fontSize: 20.0),
                   ),
                 ),
-                const SizedBox(height: 40.0),
+                const SizedBox(height: 20.0),
                 Consumer<FirebaseProvider>(
                   builder: (context, value, child) {
                     if (value.generating) {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
+                    return Wrap(
+                      spacing: 10.0,
+                      runSpacing: 15.0,
+                      alignment: WrapAlignment.center,
                       children: [
                         LayoutBuilder(builder: (context, constraints) {
                           return Container(
                             alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width > 700
-                                ? MediaQuery.of(context).size.width * 0.50
-                                : MediaQuery.of(context).size.width * 0.75,
+                            width: MediaQuery.of(context).size.width > 700 ? MediaQuery.of(context).size.width * 0.50 : MediaQuery.of(context).size.width * 0.75,
                             child: Form(
                               key: _globalKey,
                               child: TextFormField(
                                 controller: _controller,
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (str) {
                                   if (str == null || str.trim().isEmpty) {
                                     return "No link found";
                                   }
-                                  if (!(isURL(str.trim()) ||
-                                      isFQDN(str.trim()))) {
+                                  if (!(isURL(str.trim()) || isFQDN(str.trim()))) {
                                     return "Not a valid link";
                                   }
                                   return null;
                                 },
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 20.0),
                                 decoration: InputDecoration(
                                   hintText: "Paste link here",
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(50.0),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 25.0,
+                                    vertical: 15.5,
                                   ),
                                 ),
                               ),
@@ -121,19 +113,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         }),
                         const SizedBox(height: 30.0),
-                        ElevatedButton(
+                        FilledButton(
                           onPressed: () async {
                             if (_globalKey.currentState?.validate() == true) {
-                              value
-                                  .generate(_controller.text.trim())
-                                  .then((url) {
+                              value.generate(_controller.text.trim()).then((url) {
                                 if (url != null) {
                                   _controller.clear();
-                                  Navigator.pushNamed(
-                                    context,
-                                    LinkScreen.route
-                                        .replaceAll(":id", url.split("/").last),
-                                  );
+                                  context.pushNamed('/generated', queryParams: {'url': url});
                                 } else {
                                   AlertUtils.showSnackBar(
                                     context,
@@ -143,19 +129,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               });
                             }
                           },
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all(
-                              const EdgeInsets.all(20.0),
-                            ),
-                            shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                            ),
-                          ),
                           child: const Text(
                             "Generate",
-                            style: TextStyle(fontSize: 20.0),
+                            style: TextStyle(fontSize: 18.0),
                           ),
                         ),
                       ],
@@ -171,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: IconButton(
               onPressed: () async {
                 final package = await PackageInfo.fromPlatform();
+                if (!mounted) return;
                 showAboutDialog(
                   context: context,
                   applicationName: "dwarfUrl",
