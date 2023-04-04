@@ -11,6 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../gen/fonts.gen.dart';
+
 class LinkScreen extends StatefulWidget {
   static String route = "/generated";
 
@@ -36,43 +38,41 @@ class _LinkScreenState extends State<LinkScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    const Text(
+                      "Generated short link:",
+                      style: TextStyle(fontSize: 18.0, fontFamily: FontFamily.productSans),
+                    ),
+                    const SizedBox(height: 15.0),
                     Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: RichText(
-                          maxLines: 2,
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            text: widget.url,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
-                            ),
-                            children: [],
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: widget.url,
+                          style: TextStyle(
+                            fontSize: 30.0,
+                            color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
                           ),
-                        )),
+                          children: [],
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 30.0),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        if (ModalRoute.of(context)?.settings.name?.contains("/generated") == true)
-                          CircleIconButton(
-                            tooltip: "Copy to clipboard",
-                            icon: const Icon(Icons.copy),
-                            onPressed: () {
-                              FlutterClipboard.copy(kWebUrl + widget.url.toString()).then((value) {
-                                AlertUtils.showSnackBar(
-                                  context,
-                                  "Copied to clipboard!",
-                                );
-                              });
-                            },
-                          ),
-                        const SizedBox(width: 30.0),
                         CircleIconButton(
-                          tooltip: "Open website",
-                          icon: const Icon(Icons.launch),
-                          onPressed: () async {},
+                          tooltip: "Copy to clipboard",
+                          icon: const Icon(Icons.copy),
+                          onPressed: () {
+                            FlutterClipboard.copy(widget.url.toString()).then((value) {
+                              AlertUtils.showSnackBar(
+                                context,
+                                "Copied to clipboard!",
+                              );
+                            });
+                          },
                         ),
                       ],
                     ),

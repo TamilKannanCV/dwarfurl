@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dwarfurl.app">
    <application
-        android:label="DwarfUrl"
+        android:label="dwarfUrl"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

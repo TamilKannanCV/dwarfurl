@@ -1,16 +1,16 @@
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:dwarfurl/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dwarfurl/constants.dart';
 import 'package:dwarfurl/providers/firebase_provider.dart';
-import 'package:dwarfurl/screens/link_screen.dart';
 import 'package:dwarfurl/utils/alert_utils.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:string_validator/string_validator.dart';
+
+import 'link_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static String route = "/";
@@ -119,7 +119,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               value.generate(_controller.text.trim()).then((url) {
                                 if (url != null) {
                                   _controller.clear();
-                                  context.pushNamed('/generated', queryParams: {'url': url});
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => LinkScreen(url: url),
+                                    ),
+                                  );
                                 } else {
                                   AlertUtils.showSnackBar(
                                     context,
@@ -151,7 +156,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 showAboutDialog(
                   context: context,
                   applicationName: "dwarfUrl",
-                  applicationIcon: SvgPicture.asset(kLogo),
+                  applicationIcon: Assets.images.logoSvg.svg(
+                    height: 80.0,
+                    width: 80.0,
+                  ),
                   applicationLegalese: "Tamil KannanCV",
                   applicationVersion: package.version,
                 );
