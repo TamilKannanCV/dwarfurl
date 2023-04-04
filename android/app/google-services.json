@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "764018160681",
+    "project_id": "dwarfurl",
+    "storage_bucket": "dwarfurl.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764018160681:android:08eb646a145e750e7cd838",
+        "android_client_info": {
+          "package_name": "com.dwarfurl.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764018160681-ejr567nl5e0f0jmcgq8aufls0bbi6r8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClHPVQhF2W8fzLsKWPGVdO61WqqXDb_5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764018160681-ejr567nl5e0f0jmcgq8aufls0bbi6r8l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,43 +10,100 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:sizer/sizer.dart';
-import 'dart:html' as html;
+
+import '../gen/fonts.gen.dart';
 
 class LinkScreen extends StatefulWidget {
-  static String route = "/generated/:id";
-  static const String routeWithId = "/:id";
-  const LinkScreen({Key? key, this.id}) : super(key: key);
+  static String route = "/generated";
 
-  final String? id;
+  const LinkScreen({Key? key, this.url}) : super(key: key);
+
+  final String? url;
 
   @override
-  _LinkScreenState createState() => _LinkScreenState();
+  State<LinkScreen> createState() => _LinkScreenState();
 }
 
 class _LinkScreenState extends State<LinkScreen> {
-  FirebaseProvider? _firebaseProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    _firebaseProvider = Provider.of<FirebaseProvider>(context, listen: false);
-    _firebaseProvider?.getOriginalUrl(widget.id ?? '').then((value) async {
-      if (ModalRoute.of(context)?.settings.name?.contains("/generated") ==
-          false) {
-        if (value != null) await launchUrl(value);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _firebaseProvider?.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Generated short link:",
+                      style: TextStyle(fontSize: 18.0, fontFamily: FontFamily.productSans),
+                    ),
+                    const SizedBox(height: 15.0),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: widget.url,
+                          style: TextStyle(
+                            fontSize: 30.0,
+                            color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+                          ),
+                          children: [],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30.0),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleIconButton(
+                          tooltip: "Copy to clipboard",
+                          icon: const Icon(Icons.copy),
+                          onPressed: () {
+                            FlutterClipboard.copy(widget.url.toString()).then((value) {
+                              AlertUtils.showSnackBar(
+                                context,
+                                "Copied to clipboard!",
+                              );
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, HomeScreen.route);
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(
+                  kLogo,
+                  height: 70.0,
+                  width: 70.0,
+                ),
+                Text(
+                  "dwarfUrl",
+                  style: GoogleFonts.ubuntuCondensed(),
+                ),
+                const SizedBox(height: 20.0),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
     return Scaffold(
       body: Center(
         child: Consumer<FirebaseProvider>(
@@ -67,21 +124,76 @@ class _LinkScreenState extends State<LinkScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text(
-                              "$kWebUrl${widget.id}",
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20.sp),
-                            ),
-                          ),
+                              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: RichText(
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  text: kWebUrl,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+                                  ),
+                                  children: [
+                                    WidgetSpan(
+                                      child: Tooltip(
+                                        message: "Edit with custom name",
+                                        child: InkWell(
+                                          radius: 10.0,
+                                          child: Text(
+                                            widget.url.toString(),
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              color: Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+                                              decoration: TextDecoration.underline,
+                                              decorationStyle: TextDecorationStyle.dotted,
+                                            ),
+                                          ),
+                                          onTap: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title: const Text("Custom label"),
+                                                content: const TextField(
+                                                  maxLength: 6,
+                                                  decoration: InputDecoration(
+                                                    hintText: "Enter your custom label",
+                                                    border: OutlineInputBorder(),
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  ElevatedButton(
+                                                    onPressed: () async {},
+                                                    child: Consumer<FirebaseProvider>(
+                                                      builder: (context, value, child) {
+                                                        if (value.checking) {
+                                                          return const SizedBox(
+                                                              height: 10.0,
+                                                              width: 10.0,
+                                                              child: CircularProgressIndicator(
+                                                                color: Colors.white,
+                                                                strokeWidth: 2.0,
+                                                              ));
+                                                        }
+                                                        return const Text("Change");
+                                                      },
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )),
                           const SizedBox(height: 30.0),
                           Container(
                             alignment: Alignment.center,
                             constraints: BoxConstraints(
-                              maxWidth:
-                                  MediaQuery.of(context).size.width * 0.85,
+                              maxWidth: MediaQuery.of(context).size.width * 0.85,
                             ),
                             child: Card(
                               child: Padding(
@@ -104,8 +216,7 @@ class _LinkScreenState extends State<LinkScreen> {
                                         child: GestureDetector(
                                           child: Text(
                                             " ${value.originalUrl}",
-                                            style:
-                                                const TextStyle(fontSize: 17.0),
+                                            style: const TextStyle(fontSize: 17.0),
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                           ),
@@ -127,18 +238,12 @@ class _LinkScreenState extends State<LinkScreen> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              if (ModalRoute.of(context)
-                                      ?.settings
-                                      .name
-                                      ?.contains("/generated") ==
-                                  true)
+                              if (ModalRoute.of(context)?.settings.name?.contains("/generated") == true)
                                 CircleIconButton(
                                   tooltip: "Copy to clipboard",
                                   icon: const Icon(Icons.copy),
                                   onPressed: () {
-                                    FlutterClipboard.copy(
-                                            kWebUrl + widget.id.toString())
-                                        .then((value) {
+                                    FlutterClipboard.copy(kWebUrl + widget.url.toString()).then((value) {
                                       AlertUtils.showSnackBar(
                                         context,
                                         "Copied to clipboard!",
@@ -150,10 +255,7 @@ class _LinkScreenState extends State<LinkScreen> {
                               CircleIconButton(
                                 tooltip: "Open website",
                                 icon: const Icon(Icons.launch),
-                                onPressed: () async {
-                                  await launchUrl(
-                                      "${_firebaseProvider?.originalUrl}");
-                                },
+                                onPressed: () async {},
                               ),
                             ],
                           ),
@@ -193,10 +295,8 @@ class _LinkScreenState extends State<LinkScreen> {
   Future<void> launchUrl(String? url) async {
     String originalUrl = "$url";
     if (originalUrl.startsWith("http") == false) {
-      originalUrl = "http://$originalUrl";
+      originalUrl = "http:";
     }
-
-    // html.window.open(originalUrl, "originalUrl");
 
     if (await canLaunch(originalUrl)) await launch(originalUrl);
   }
