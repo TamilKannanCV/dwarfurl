@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logger/logger.dart';
 
 class FirebaseProvider extends ChangeNotifier {
@@ -39,7 +40,7 @@ class FirebaseProvider extends ChangeNotifier {
     _generating = true;
     notifyListeners();
     final DynamicLinkParameters parameters = DynamicLinkParameters(
-      uriPrefix: 'https://dwarfurl.page.link',
+      uriPrefix: dotenv.get('URI_PREFIX_URL'),
       link: Uri.parse(url),
       socialMetaTagParameters: const SocialMetaTagParameters(
         title: 'dwarfUrl',
