@@ -10,7 +10,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:string_validator/string_validator.dart';
 
-import 'link_screen.dart';
+import '../link_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static String route = "/";

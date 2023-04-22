@@ -1,5 +1,5 @@
 import 'package:clipboard/clipboard.dart';
-import 'package:dwarfurl/screens/home_screen.dart';
+import 'package:dwarfurl/screens/home/home_screen.dart';
 import 'package:dwarfurl/screens/page_not_found_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dwarfurl/constants.dart';

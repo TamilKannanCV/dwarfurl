@@ -3,7 +3,7 @@ import 'package:dwarfurl/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'home_screen.dart';
+import 'home/home_screen.dart';
 
 class PageNotFoundScreen extends StatelessWidget {
   const PageNotFoundScreen({Key? key}) : super(key: key);
