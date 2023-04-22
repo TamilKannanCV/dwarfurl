@@ -7,7 +7,6 @@ abstract class AlertUtils {
       SnackBar(
         content: Text(message),
         behavior: SnackBarBehavior.floating,
-        width: 300.0,
       ),
     );
   }
